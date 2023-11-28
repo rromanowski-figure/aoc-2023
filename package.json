@@ -1,0 +1,16 @@
+{
+  "name": "aoc-2023",
+  "module": "src/index.ts",
+  "type": "module",
+
+  "scripts": {
+    "welcome": "bun run src/welcome.ts"
+  },
+
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
