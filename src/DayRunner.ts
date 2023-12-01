@@ -2,14 +2,17 @@ import { Day01 } from "./day-01/day-01"
 import { error, loadInputFromFile, parseDayAndPart } from "./util"
 
 export class DayRunner {
-    days: Map<String, Day> = new Map([
-        ["01", Day01]
+    private days: Map<String, Day> = new Map([
+        ["01", Day01],
+        // Add new days above here
     ])
 
+    private getDay = (d: string): Day => this.days.get(d) ?? error(`day ${d} not initialized`)
+    
     run = async (s: string) => {
         const [d, part] = parseDayAndPart(s)
 
-        const day: Day = this.days.get(d) ?? error(`day ${d} not initialized`)
+        const day = this.getDay(d)
 
         console.log(this.buildHeader(`Day ${d} - ${day.title}`))
         
