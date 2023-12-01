@@ -6,8 +6,6 @@ export class DayRunner {
         ["01", Day01],
         // Add new days above here
     ])
-
-    private getDay = (d: string): Day => this.days.get(d) ?? error(`day ${d} not initialized`)
     
     run = async (s: string) => {
         const [d, part] = parseDayAndPart(s)
@@ -27,7 +25,9 @@ export class DayRunner {
         }        
     }
 
-    buildHeader = (s: string): string => {
+    private getDay = (d: string): Day => this.days.get(d) ?? error(`day ${d} not initialized`)
+
+    private buildHeader = (s: string): string => {
         const header = `--  ${s}  --`
         const border = '-'.repeat(header.length)
         return `${border}\n${header}\n${border}`
