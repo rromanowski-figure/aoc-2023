@@ -4,7 +4,9 @@
   "type": "module",
 
   "scripts": {
-    "welcome": "bun run src/welcome.ts"
+    "start": "bun run src/index.ts --day ${AOC_DAY:-\"$(date +'%d')\"}",
+    "one": "bun run src/index.ts --day 01.1",
+    "day": "./scripts/init-day.sh"
   },
 
   "devDependencies": {
