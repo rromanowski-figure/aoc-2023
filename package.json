@@ -5,8 +5,8 @@
 
   "scripts": {
     "start": "bun run src/index.ts --day ${AOC_DAY:-\"$(date +'%d')\"}",
-    "one": "bun run src/index.ts --day 01.1",
-    "day": "./scripts/init-day.sh"
+    "day": "bun run src/index.ts --day $1",
+    "create": "./scripts/init-day.sh"
   },
 
   "devDependencies": {

@@ -12,4 +12,4 @@ Bun with Typescript Edition
 ## Testing
 1. Run `bun test src` to validate examples (and skip template folder)
 2. Run `bun start` to run all parts for today
-3. Run `bun start --day 01.1` to run specified day and (optional) part, or use `AOC_DAY=01.1 bun start`
+3. Run `bun day 01.1` to run specified day and (optional) part, or use `AOC_DAY=01.1 bun start`
