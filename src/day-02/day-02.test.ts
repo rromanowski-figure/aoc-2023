@@ -8,7 +8,7 @@ test("Day02 title", () => expect(Day02.title).toBe("Cube"))
 test("Day02 - 1 - sample", async () => {
     const input = await loadInputFromFile("./src/day-02-1.sample")
     
-    expect(Day02.part1(input)).toBe(0)
+    expect(Day02.part1(input)).toBe(8)
 })
 
 test("Day02 - 2 - sample", async () => {
