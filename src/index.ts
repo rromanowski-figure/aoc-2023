@@ -3,4 +3,10 @@ import { getDayFromArgv } from "./util";
 
 const day = getDayFromArgv(Bun.argv)
 
-new DayRunner().run(day)
+const runner = new DayRunner()
+if (day == "all") {
+    runner.runAll()
+} else {
+    runner.run(day)
+}
+

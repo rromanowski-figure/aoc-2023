@@ -3,6 +3,8 @@ export function error(errorMessage: string): never {
 }
 
 export function getDayFromArgv(argv: string[]) {
+    if (argv.includes("--all")) return "all"
+    
     const dayFlag = "--day"
     if (argv.includes(dayFlag)) {
         return argv[argv.findIndex(arg => arg == dayFlag) + 1]

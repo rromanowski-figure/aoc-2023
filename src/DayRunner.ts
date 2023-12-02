@@ -3,7 +3,7 @@ import { Day02 } from "./day-02/day-02"
 import { error, loadInputFromFile, parseDayAndPart } from "./util"
 
 export class DayRunner {
-    private days: Map<String, Day> = new Map([
+    private days: Map<string, Day> = new Map([
         ["01", Day01], 
         ["02", Day02], 
         // Add new days above here
@@ -27,12 +27,18 @@ export class DayRunner {
         }        
     }
 
+    runAll = async () => {
+        for(const [k, _] of this.days) {
+            await this.run(k)
+        }
+    }
+
     private getDay = (d: string): Day => this.days.get(d) ?? error(`day ${d} not initialized`)
 
     private buildHeader = (s: string): string => {
         const header = `--  ${s}  --`
         const border = '-'.repeat(header.length)
-        return `${border}\n${header}\n${border}`
+        return `\n${border}\n${header}\n${border}`
     }
 }
 

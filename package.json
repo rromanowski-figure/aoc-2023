@@ -6,6 +6,7 @@
   "scripts": {
     "start": "bun run src/index.ts --day ${AOC_DAY:-\"$(date +'%d')\"}",
     "day": "bun run src/index.ts --day $1",
+    "all": "bun run src/index.ts --all",
     "create": "./scripts/init-day.sh"
   },
 
