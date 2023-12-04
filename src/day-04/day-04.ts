@@ -45,13 +45,10 @@ const part2: Part = (input: string[]): number => {
 			winningNumbers.includes(n),
 		);
 
-		// const cardCount = (cards.get(cardId) ?? 0) + 1;
-		// cards.set(cardId, cardCount);
-		cards.update(cardId, (c) => c + 1, 0);
+		const count = cards.update(cardId, (c) => c + 1, 0);
 
 		for (let i = cardId + 1; i <= cardId + matchingNumbers.length; i++) {
-			const count = cards.get(i) ?? 0;
-			cards.set(i, count + cardCount);
+			cards.update(i, (c) => c + count, 0);
 		}
 	});
 

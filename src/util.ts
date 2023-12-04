@@ -38,5 +38,7 @@ Map.prototype.update = function <K, V>(
 	defaultValue: V,
 ) {
 	const value = this.get(k) ?? defaultValue;
-	this.set(k, transform(value));
+	const newValue = transform(value);
+	this.set(k, newValue);
+	return newValue;
 };
