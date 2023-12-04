@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 import { loadInputFromFile } from '../util';
-import { Day03 } from './day-03';
+import { Day03, adjacentCoordinates } from './day-03';
 
 test('Day03 title', () => expect(Day03.title).toBe('Gear Ratios'));
 
@@ -18,6 +18,21 @@ test('Day03 - 1 - additional test 7', () => {
 test('Day03 - 1 - additional test 8', () => {
 	const input = ['11.$.'];
 	expect(Day03.part1(input)).toBe(0);
+});
+
+test('Day03 - P2', () => {
+	const grid = [
+		['1', '2', '3'],
+		['1', '2', '3'],
+		['1', '2', '3'],
+	];
+	expect(adjacentCoordinates(grid, { row: 0, col: 0 })).toBe(
+		new Set([
+			{ row: 0, col: 1 },
+			{ row: 1, col: 0 },
+			{ row: 1, col: 1 },
+		]),
+	);
 });
 
 test('Day03 - 2 - sample', async () => {

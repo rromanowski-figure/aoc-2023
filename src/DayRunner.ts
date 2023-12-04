@@ -1,6 +1,7 @@
 import { Day01 } from './day-01/day-01';
 import { Day02 } from './day-02/day-02';
 import { Day03 } from './day-03/day-03';
+import { Day04 } from './day-04/day-04';
 import { error, loadInputFromFile, parseDayAndPart } from './util';
 
 export class DayRunner {
@@ -8,6 +9,7 @@ export class DayRunner {
 		['01', Day01],
 		['02', Day02],
 		['03', Day03],
+		['04', Day04],
 		// Add new days above here
 	]);
 
