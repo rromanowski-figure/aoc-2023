@@ -2,7 +2,7 @@ import { Day01 } from './day-01/day-01';
 import { Day02 } from './day-02/day-02';
 import { Day03 } from './day-03/day-03';
 import { Day04 } from './day-04/day-04';
-import { error, loadInputFromFile, parseDayAndPart } from './util';
+import { error, loadInputFromFile, parseDayAndPart, timed } from './util';
 
 export class DayRunner {
 	private days: Map<string, Day> = new Map([
@@ -21,23 +21,19 @@ export class DayRunner {
 		console.log(this.buildHeader(`Day ${d} - ${day.title}`));
 
 		if (part == '1' || !part) {
-			const start = performance.now();
-			const result1 = day.part1(
-				await loadInputFromFile(`src/day-${d}/day-${d}-1.input`),
-			);
-			const duration =
-				Math.round((performance.now() - start) * 100) / 100;
-			console.log(`Part 1 (${duration}ms): ${result1}`);
+            const input = await loadInputFromFile(`src/day-${d}/day-${d}-1.input`)
+
+			const [duration, result] = timed(() => day.part1(input))
+
+			console.log(`Part 1 (${duration}ms): ${result}`);
 		}
 
 		if (part == '2' || !part) {
-			const start = performance.now();
-			const result2 = day.part2(
-				await loadInputFromFile(`src/day-${d}/day-${d}-2.input`),
-			);
-			const duration =
-				Math.round((performance.now() - start) * 100) / 100;
-			console.log(`Part 2 (${duration}ms): ${result2}`);
+            const input = await loadInputFromFile(`src/day-${d}/day-${d}-2.input`)
+
+            const [duration, result] = timed(() => day.part2(input))
+
+			console.log(`Part 2 (${duration}ms): ${result}`);
 		}
 	};
 

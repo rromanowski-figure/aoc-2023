@@ -42,7 +42,7 @@ const part1: Part = (input: string[]): number => {
         if(hasAllValidSubsets) return gameId
         else return 0
     })
-    
+
     return sum(values)
 }
 
