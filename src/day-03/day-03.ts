@@ -1,33 +1,62 @@
 import { Day, Part } from '../DayRunner';
-import { error } from '../util';
+import { SetWithContentEquality, error, print } from '../util';
 
 type Grid = Array<Array<string>>;
 
+type SubGridMode = 'topleft' | 'center'
+export function subGrid(grid: Grid, origin: P2, height: number, width: number, mode: SubGridMode = 'topleft') {
+	let subgrid = Array<Array<string>>()
+
+	switch(mode) {
+		case 'topleft':
+			for (let r = origin.row; r < origin.row + height; r++) {
+				let row: Array<string> = []
+				for (let c = origin.col; c < origin.col + width; c++) {
+					row.push(grid[r][c])
+				}
+				subgrid.push(row)
+			}
+			break;
+		case 'center':
+			const hOffset = (height - 1) / 2
+			const wOffset = (width - 1) / 2
+			for (let r = origin.row - hOffset; r <= origin.row + hOffset; r++) {
+				let row: Array<string> = []
+				for (let c = origin.col - wOffset; c <= origin.col + wOffset; c++) {
+					row.push(grid[r][c])
+				}
+				subgrid.push(row)
+			}
+			return subgrid
+	}
+
+	return subgrid
+}
+
 type P2 = { row: number; col: number };
 
-export const adjacentCoordinates = (grid: Grid, { row, col }: P2): Set<P2> => {
+export const adjacentCoordinates = (grid: Grid, { row, col }: P2): Array<P2> => {
 	const lastRowIndex = grid.length - 1;
 	const lastColumnIndex = grid[0].length - 1;
 
-	// TODO: tuples in TS compare by reference not value, so Set has duplicates and current point also
-	const coords: Set<P2> = new Set([
-		// Above
-		{ row: Math.max(0, row - 1), col: Math.max(0, col - 1) },
-		{ row: Math.max(0, row - 1), col },
-		{ row: Math.max(0, row - 1), col: Math.min(lastColumnIndex, col + 1) },
-		// L and R
-		{ row, col: Math.max(0, col - 1) },
-		{ row, col: Math.min(lastColumnIndex, col + 1) },
-		// Below
-		{ row: Math.min(lastRowIndex, row + 1), col: Math.max(0, col - 1) },
-		{ row: Math.min(lastRowIndex, row + 1), col },
-		{
-			row: Math.min(lastRowIndex, row + 1),
-			col: Math.min(lastColumnIndex, col + 1),
-		},
-	]);
+	const coords = new SetWithContentEquality<P2>()
+	
+	// Above
+	coords.add({ row: Math.max(0, row - 1), col: Math.max(0, col - 1) })
+	coords.add({ row: Math.max(0, row - 1), col })
+	coords.add({ row: Math.max(0, row - 1), col: Math.min(lastColumnIndex, col + 1) })
+	// L and R
+	coords.add({ row, col: Math.max(0, col - 1) })
+	coords.add({ row, col: Math.min(lastColumnIndex, col + 1) })
+	// Below
+	coords.add({ row: Math.min(lastRowIndex, row + 1), col: Math.max(0, col - 1) })
+	coords.add({ row: Math.min(lastRowIndex, row + 1), col })
+	coords.add({
+		row: Math.min(lastRowIndex, row + 1),
+		col: Math.min(lastColumnIndex, col + 1),
+	})
 
-	return coords;
+	return coords.values().filter(p => !(p.row == row && p.col == col));
 };
 
 const isSymbol = (c: string) => /[^0-9\.]/.test(c);
@@ -128,18 +157,21 @@ const part2: Part = (input: string[]): number => {
 	input.forEach((line, row) => {
 		line.split('').forEach((c, col) => {
 			if (isGear(c)) {
-				console.log('found * at', row, col);
+				console.log(`\nfound * at (${row},${col}):\n${
+					subGrid(grid, { row, col }, 3, 3, "center")
+						.map(r => r.join(""))
+						.join("\n")
+				}`);
 
 				let firstNumber: number | undefined = undefined;
 				let secondNumber: number | undefined = undefined;
 
-				let coords = Array.from(
-					adjacentCoordinates(grid, { row, col }),
-				);
+				let coords = adjacentCoordinates(grid, { row, col })
 
 				// if gear, look for adjacent digit, for first digit, find full number,
 				while (coords.length > 0) {
 					const { row, col } = coords.shift()!;
+					console.log(`(${row},${col})`)
 
 					if (isDigit(grid[row][col])) {
 						const [coordsToRemove, n] = findFullNumber(
@@ -147,21 +179,31 @@ const part2: Part = (input: string[]): number => {
 							row,
 							col,
 						);
-						console.log('n', n);
+
+						console.log('coords to remove', coordsToRemove)
+						
+						coords = coords.filter(
+							(c) => !(coordsToRemove.some(cr => cr.row == c.row && cr.col == c.col)),
+						);
+						console.log('new coords', coords)
+						
 						if (!firstNumber) firstNumber = n;
 						else {
 							secondNumber = n;
 							break;
 						}
-						coords = coords.filter(
-							(c) => !coordsToRemove.includes(c),
-						);
 					}
 				}
 
 				// if second digit not part of first number, find full number and add to sum
-				if (firstNumber && secondNumber)
+				if (firstNumber && secondNumber) {
+					print(`found 2 numbers: ${firstNumber} * ${secondNumber} = ${firstNumber * secondNumber} + ${sum} = ${sum + firstNumber * secondNumber}`)
 					sum = sum + firstNumber * secondNumber;
+				} else if (firstNumber) {
+					print(`found 1 number: ${firstNumber}`)
+				} else {
+					print(`found 0 numbers: ${firstNumber}`)
+				}
 			}
 		});
 	});
