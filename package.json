@@ -1,19 +1,17 @@
 {
-  "name": "aoc-2023",
-  "module": "src/index.ts",
-  "type": "module",
-
-  "scripts": {
-    "start": "bun run src/index.ts --day ${AOC_DAY:-\"$(date +'%d')\"}",
-    "day": "bun run src/index.ts --day $1",
-    "all": "bun run src/index.ts --all",
-    "create": "./scripts/init-day.sh"
-  },
-
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+	"name": "aoc-2023",
+	"module": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"start": "bun run src/index.ts --day ${AOC_DAY:-\"$(date +'%d')\"}",
+		"day": "bun run src/index.ts --day $1",
+		"all": "bun run src/index.ts --all",
+		"bootstrap": "./scripts/init-day.sh"
+	},
+	"devDependencies": {
+		"bun-types": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
 }

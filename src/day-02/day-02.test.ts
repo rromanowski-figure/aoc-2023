@@ -11,7 +11,6 @@ test("playground", () => {
     const [move, ...moves] = subset.split(", ")
     expect(move).toBe("3 blue")
     const match = move.match(/(\d+) ([a-z]+)/)!
-    console.log("match", match)
     expect(match[1]).toBe("3")
     expect(match[2]).toBe("blue")
 
