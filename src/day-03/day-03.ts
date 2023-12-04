@@ -4,7 +4,7 @@ import { Grid, P2, adjacentCoordinates, error, gridOf, print, subGrid } from '..
 const isSymbol = (c: string) => /[^0-9\.]/.test(c);
 const isDigit = (c: string): boolean => /[0-9]/.test(c);
 const isSymbolAdjacent = (grid: Grid, row: number, col: number): boolean => {
-	return Array.from(adjacentCoordinates(grid, { row, col })).reduce(
+	return adjacentCoordinates(grid, { row, col }).reduce(
 		(acc, { row, col }) => acc || isSymbol(grid[row][col]),
 		false,
 	);
@@ -76,26 +76,15 @@ const findFullNumber = (
 
 	return [coords, parseInt(digits)];
 };
+
 const part2: Part = (input: string[]): number => {
+	const grid: Grid = gridOf(input)
+
 	let sum = 0;
 
-	const grid: Grid = input.map((line) => line.split(''));
-	const height = grid.length;
-	const width = grid[0].length;
-	grid.every((row) => row.length == width)
-		? () => {}
-		: error('not an even grid');
-	console.log(`Grid: ${height}x${width}`);
-
-	input.forEach((line, row) => {
-		line.split('').forEach((c, col) => {
+	grid.forEach((line, row) => {
+		line.forEach((c, col) => {
 			if (isGear(c)) {
-				console.log(`\nfound * at (${row},${col}):\n${
-					subGrid(grid, { row, col }, 3, 3, "center")
-						.map(r => r.join(""))
-						.join("\n")
-				}`);
-
 				let firstNumber: number | undefined = undefined;
 				let secondNumber: number | undefined = undefined;
 
@@ -126,12 +115,7 @@ const part2: Part = (input: string[]): number => {
 
 				// if second digit not part of first number, find full number and add to sum
 				if (firstNumber && secondNumber) {
-					print(`found 2 numbers: ${firstNumber} * ${secondNumber} = ${firstNumber * secondNumber} + ${sum} = ${sum + firstNumber * secondNumber}`)
 					sum = sum + firstNumber * secondNumber;
-				} else if (firstNumber) {
-					print(`found 1 number: ${firstNumber}`)
-				} else {
-					print(`found 0 numbers: ${firstNumber}`)
 				}
 			}
 		});
