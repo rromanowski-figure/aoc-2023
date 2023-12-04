@@ -32,6 +32,21 @@ export function subGrid(grid: Grid, origin: P2, height: number, width: number, m
 
 	return subgrid
 }
+export function boundedSubGrid(grid: Grid, tl: P2, br: P2): Array<Array<string>> {
+	if (br.row < tl.row || br.col < tl.col) error("Bottom right must be greater than top left")
+	let subgrid = Array<Array<string>>()
+
+	for (let r = tl.row; r <= br.row; r++) {
+		let row: Array<string> = []
+		for (let c = tl.col; c <= br.col; c++) {
+			row.push(grid[r][c])
+		}
+		subgrid.push(row)
+	}
+
+	return subgrid
+}
+
 
 type P2 = { row: number; col: number };
 
@@ -144,7 +159,6 @@ const findFullNumber = (
 };
 const part2: Part = (input: string[]): number => {
 	let sum = 0;
-	let currentDigits: string = '';
 
 	const grid: Grid = input.map((line) => line.split(''));
 	const height = grid.length;
@@ -171,7 +185,6 @@ const part2: Part = (input: string[]): number => {
 				// if gear, look for adjacent digit, for first digit, find full number,
 				while (coords.length > 0) {
 					const { row, col } = coords.shift()!;
-					console.log(`(${row},${col})`)
 
 					if (isDigit(grid[row][col])) {
 						const [coordsToRemove, n] = findFullNumber(
@@ -179,13 +192,10 @@ const part2: Part = (input: string[]): number => {
 							row,
 							col,
 						);
-
-						console.log('coords to remove', coordsToRemove)
 						
 						coords = coords.filter(
 							(c) => !(coordsToRemove.some(cr => cr.row == c.row && cr.col == c.col)),
 						);
-						console.log('new coords', coords)
 						
 						if (!firstNumber) firstNumber = n;
 						else {

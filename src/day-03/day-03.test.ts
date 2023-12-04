@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 import { loadInputFromFile } from '../util';
-import { Day03, adjacentCoordinates, subGrid } from './day-03';
+import { Day03, adjacentCoordinates, boundedSubGrid, subGrid } from './day-03';
 
 test('Day03 title', () => expect(Day03.title).toBe('Gear Ratios'));
 
@@ -36,6 +36,9 @@ test("Day03 - adjacent", () => {
 	expect(subGrid(grid, {row: 1, col: 0}, 2, 2)).toEqual([["1","2"],["1","2"]])
 	expect(subGrid(grid, {row: 1, col: 1}, 2, 2)).toEqual([["2","3"],["2","3"]])
 	expect(subGrid(grid, {row: 1, col: 1}, 3, 3, 'center')).toEqual(grid)
+
+	expect(boundedSubGrid(grid, {row: 0, col: 0}, {row: 0, col: 0})).toEqual([["1"]])
+	expect(boundedSubGrid(grid, {row: 0, col: 0}, {row: 2, col: 2})).toEqual(grid)
 })
 test('Day03 - 2 - sample', async () => {
 	const input = await loadInputFromFile('./src/day-03/day-03-2.sample');
