@@ -13,28 +13,37 @@ export class DayRunner {
 		// Add new days above here
 	]);
 
-	run = async (s: string) => {
+	run = async (s: string): Promise<[number, number][]> => {
 		const [d, part] = parseDayAndPart(s);
 
 		const day = this.getDay(d);
 
 		console.log(this.buildHeader(`Day ${d} - ${day.title}`));
 
+		let results: [number, number][] = [];
 		if (part == '1' || !part) {
-            const input = await loadInputFromFile(`src/day-${d}/day-${d}-1.input`)
+			const input = await loadInputFromFile(
+				`src/day-${d}/day-${d}-1.input`,
+			);
 
-			const [duration, result] = timed(() => day.part1(input))
+			const [duration, result] = timed(() => day.part1(input));
+			results.push([duration, result]);
 
 			console.log(`Part 1 (${duration}ms): ${result}`);
 		}
 
 		if (part == '2' || !part) {
-            const input = await loadInputFromFile(`src/day-${d}/day-${d}-2.input`)
+			const input = await loadInputFromFile(
+				`src/day-${d}/day-${d}-2.input`,
+			);
 
-            const [duration, result] = timed(() => day.part2(input))
+			const [duration, result] = timed(() => day.part2(input));
+			results.push([duration, result]);
 
 			console.log(`Part 2 (${duration}ms): ${result}`);
 		}
+
+		return results;
 	};
 
 	runAll = async () => {
